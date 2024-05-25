@@ -12,7 +12,6 @@ def init_db(app):
         #db.drop_all()
         db.create_all()
 
-# Define Image Table
 class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     originalImage = db.Column(db.String(80), nullable=False)

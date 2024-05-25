@@ -26,7 +26,7 @@ def test():
     return 'OK'
 
 @router.route('/upload', methods=['POST'])
-def upload_image():
+def post_upload():
     if 'file' not in request.files:
         return jsonify({"error": "no file key!"}), 400
 
@@ -53,13 +53,13 @@ def upload_image():
     return jsonify({"error": "File type not allowed"}), 400
 
 @router.route('/images', methods=['GET'])
-def list_images():
+def get_images():
     images = Image.query.all()
     images_list = [{"id": image.id, "image": image.processedImage} for image in images]
     return jsonify(images_list), 200
 
 @router.route('/imageFile', methods=['GET'])
-def get_image():
+def get_imageFile():
     if 'id' not in request.args:
         return jsonify({"error": "no id key!"}), 400
     id = request.args.get('id')
@@ -71,7 +71,7 @@ def get_image():
     return send_from_directory(PROCESSED_FOLDER, image.processedImage, mimetype='image/png')
 
 @router.route('/process', methods=['PUT'])
-def process_uploaded_image():
+def put_process():
     if 'id' not in request.args:
         return jsonify({"error": "no id key!"}), 400
     if 'operation' not in request.args:
@@ -96,3 +96,17 @@ def process_uploaded_image():
     db.session.commit()
 
     return send_from_directory(PROCESSED_FOLDER, image.processedImage, mimetype='image/png')
+
+@router.route('/imageHistory', methods=['GET'])
+def get_imageHistory():
+    if 'id' not in request.args:
+        return jsonify({"error": "no id key!"}), 400
+    id = request.args.get('id')
+
+    operations = ImageOperation.query.filter_by(idImage=id).all()
+
+    Operationlist = [
+        {"id": operation.id, "operation": operation.operation, "value": operation.operationValue}
+        for operation in operations
+    ]
+    return jsonify(Operationlist), 200
