@@ -1,11 +1,10 @@
-from flask import Blueprint, request, jsonify, send_from_directory, send_file
-from werkzeug.utils import secure_filename
+from flask import Blueprint, request, jsonify, send_from_directory
 from database import db, Image, ImageOperation
-import os
 from utils.image_processing import process_image
 import datetime
 import shutil
 import math
+import os
 
 router = Blueprint('router', __name__, static_folder='static')
 
@@ -13,13 +12,17 @@ UPLOAD_FOLDER = 'uploads'
 PROCESSED_FOLDER = 'processed'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'tiff'}
 
+def getFileExtension(filename):
+    return filename.rsplit('.', 1)[-1].lower()
+
 def allowedFile(filename):
-    return filename.rsplit('.', 1)[-1].lower() in ALLOWED_EXTENSIONS
+    return getFileExtension(filename) in ALLOWED_EXTENSIONS
 
 def getImageName(filename):
     now = datetime.datetime.now()
     milliseconds = math.floor((now.timestamp() * 1000) + (now.microsecond / 1000))
-    return str(milliseconds) + "." +filename.rsplit('.', 1)[-1].lower()
+    return str(milliseconds) + "." + getFileExtension(filename)
+
 
 @router.route('/', methods=['GET'])
 def test():
@@ -68,7 +71,19 @@ def get_imageFile():
     if image is None:
         return jsonify({"error": "Image not found"}), 404
 
-    return send_from_directory(PROCESSED_FOLDER, image.processedImage, mimetype='image/png')
+    return send_from_directory(PROCESSED_FOLDER, image.processedImage)
+
+@router.route('/originalImageFile', methods=['GET'])
+def get_originalImageFile():
+    if 'id' not in request.args:
+        return jsonify({"error": "no id key!"}), 400
+    id = request.args.get('id')
+
+    image = Image.query.get(id)
+    if image is None:
+        return jsonify({"error": "Image not found"}), 404
+
+    return send_from_directory(UPLOAD_FOLDER, image.originalImage)
 
 @router.route('/process', methods=['PUT'])
 def put_process():
@@ -95,7 +110,7 @@ def put_process():
     db.session.add(newOperation)
     db.session.commit()
 
-    return send_from_directory(PROCESSED_FOLDER, image.processedImage, mimetype='image/png')
+    return send_from_directory(PROCESSED_FOLDER, image.processedImage)
 
 @router.route('/imageHistory', methods=['GET'])
 def get_imageHistory():

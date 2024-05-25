@@ -1,5 +1,4 @@
 from PIL import Image, ImageEnhance
-import os
 
 def process_image(filepath, operation, value):
     image = Image.open(filepath)

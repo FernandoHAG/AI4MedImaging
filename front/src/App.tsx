@@ -7,20 +7,32 @@ const backendURL = "http://localhost:8080/";
 
 function App() {
   const [count, setCount] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const fetchAPI = async () => {
-    const response = await axios.get(backendURL);
-    console.log(response.data);
+    try {
+      const response = await axios.get(backendURL);
+      if (response.data == "OK") {
+        setLoading(false);
+      } else {
+        setTimeout(fetchAPI, 1000);
+      }
+    } catch (error) {
+      console.error(error);
+      setTimeout(fetchAPI, 1000);
+    }
   };
 
   useEffect(() => {
-    fetchAPI();
+    const intervalId = setTimeout(fetchAPI, 1000);
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
     <>
-      {Loader()}
-      {false && (
+      {loading ? (
+        <Loader />
+      ) : (
         <>
           <h1>Vite + React</h1>
           <div className="card">
