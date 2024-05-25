@@ -15,6 +15,11 @@ def init_db(app):
 # Define Image Table
 class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    filename = db.Column(db.String(80), nullable=False)
-    operations = db.Column(db.String(120), nullable=True)
-    processed_image = db.Column(db.LargeBinary, nullable=True)
+    originalImage = db.Column(db.String(80), nullable=False)
+    processedImage = db.Column(db.String(80), nullable=False)
+
+class ImageOperation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    idImage = db.Column(db.Integer, nullable=False)
+    operation = db.Column(db.String(80), nullable=False)
+    operationValue = db.Column(db.String(80), nullable=False)

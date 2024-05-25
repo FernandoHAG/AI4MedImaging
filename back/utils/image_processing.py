@@ -1,30 +1,27 @@
 from PIL import Image, ImageEnhance
 import os
 
-def process_image(filepath, operation):
+def process_image(filepath, operation, value):
     image = Image.open(filepath)
     
-    if operation == "rotate_90":
-        image = image.rotate(90, expand=True)
-    elif operation == "rotate_180":
-        image = image.rotate(180, expand=True)
-    elif operation == "flip_horizontal":
-        image = image.transpose(Image.FLIP_LEFT_RIGHT)
-    elif operation == "flip_vertical":
-        image = image.transpose(Image.FLIP_TOP_BOTTOM)
-    elif operation == "increase_contrast":
+    if operation == "rotate":
+        image = image.rotate(value, expand=True)
+    elif operation == "flip":
+        if value == 0:
+            image = image.transpose(Image.FLIP_LEFT_RIGHT)
+        else:
+            image = image.transpose(Image.FLIP_TOP_BOTTOM)
+    elif operation == "contrast":
         enhancer = ImageEnhance.Contrast(image)
-        image = enhancer.enhance(2)
-    elif operation == "decrease_contrast":
-        enhancer = ImageEnhance.Contrast(image)
-        image = enhancer.enhance(0.5)
-    elif operation == "increase_brightness":
+        if value <= 0:
+            image = enhancer.enhance(0)
+        else: 
+            image = enhancer.enhance(value)
+    elif operation == "brightness":
         enhancer = ImageEnhance.Brightness(image)
-        image = enhancer.enhance(2)
-    elif operation == "decrease_brightness":
-        enhancer = ImageEnhance.Brightness(image)
-        image = enhancer.enhance(0.5)
+        if value <= 0:
+            image = enhancer.enhance(0)
+        else: 
+            image = enhancer.enhance(value)
 
-    processed_filepath = f"{os.path.splitext(filepath)[0]}_{operation}.png"
-    image.save(processed_filepath)
-    return processed_filepath
+    return image
