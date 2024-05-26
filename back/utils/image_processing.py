@@ -1,7 +1,8 @@
 from PIL import Image, ImageEnhance
 
-def process_image(filepath, operation, value):
+def process_image(filepath, operation, operationValue):
     image = Image.open(filepath)
+    value = float(operationValue)
     
     if operation == "rotate":
         image = image.rotate(value, expand=True)

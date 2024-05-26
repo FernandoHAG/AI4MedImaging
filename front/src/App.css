@@ -1,0 +1,118 @@
+.main-row {
+  display: flex;
+  height: calc(100vh - 47px);
+}
+
+.upload-file-input {
+  margin-top: 10px;
+  margin-left: 25px;
+}
+
+.image-list {
+  width: 15vw;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  align-content: center;
+  gap: 20px;
+  padding-top: 15px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: 0.5s;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+}
+
+.select-image-button {
+  color: #fff;
+  padding: 5px;
+  font-size: 12px;
+  border-radius: 0.5em;
+  background: #212121;
+  border: 1px solid #212121;
+  transition: all 0.3s;
+  box-shadow: 6px 6px 12px #000, -6px -6px 12px #2f2f2f;
+  width: 95%;
+  height: 40px;
+  min-height: 40px;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  -webkit-border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  -ms-border-radius: 0.5em;
+  -o-border-radius: 0.5em;
+
+  &:hover {
+    background: #303030;
+    border: 1px solid #303030;
+    box-shadow: 8px 8px 12px #000, -8px -8px 12px #2f2f2f;
+  }
+  &:active {
+    background: #212121;
+    border: 1px solid #212121;
+    color: #666;
+    box-shadow: inset 4px 4px 12px #000, inset -4px -4px 12px #1f1f1f;
+  }
+}
+
+.original-image-wrapper {
+  width: 40vw;
+  display: flex;
+  text-align: center;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  flex-direction: column;
+
+  & > * {
+    box-shadow: 6px 6px 12px #000, -6px -6px 12px #2f2f2f;
+  }
+}
+
+.processed-image-wrapper {
+  width: 40vw;
+  display: flex;
+  text-align: center;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  flex-direction: column;
+
+  & > * {
+    box-shadow: 6px 6px 12px #000, -6px -6px 12px #2f2f2f;
+  }
+}
+
+.operation-list-wrapper {
+  width: 10vw;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  align-content: center;
+  gap: 20px;
+  padding-top: 15px;
+  overflow-y: auto;
+  overflow: hidden;
+  transition: 0.5s;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
+}
+
+.image-shower {
+  max-width: 100%;
+  max-height: 100%;
+}

@@ -27,6 +27,9 @@
   overflow: hidden;
   border-radius: 6px;
   box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.1);
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 39vh;
 }
 
 .gearbox .overlay {
